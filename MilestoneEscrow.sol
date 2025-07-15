@@ -65,6 +65,48 @@ contract MilestoneEscrow {
         for (uint i=0; i< _milestoneAmounts.length; i++) {
             newJob.milestones[i] = Milestone(_milestoneAmounts[i], false);
         }
+    }
 
+    /// @dev Event emitted when work is submitted
+    event WorkSubmitted(uint indexed jobId, uint indexed milestoneId);
+
+    /// @dev Event emited when milestone is approved
+    event MilestoneApproved(uint indexed jobId, uint indexed milestoneId, uint amount);
+
+    /// @notice Freelancer submits work for a milestone
+    function submitWork(uint jobId, uint milestoneId) external onlyFreelancer(jobId) {
+        Job storage job = jobs[jobId];
+        require(job.status == JobStatus.Active, "Job is not active");
+        require(milestoneId < job.milestoneCount, "Invalid milestone");
+        require(!job.milestones[milestoneId].isReleased, "Milestone already released");
+
+        emit WorkSubmitted(jobId, milestoneId);
+    }
+
+    /// @notice Client approves and releases payment for a milestone
+    function approveMilestone(uint jobId, uint milestoneId) external onlyClient(jobId) {
+        Job storage job = jobs[jobId];
+        require(job.status == JobStatus.Active, "Job is not active");
+        require(milestoneId < job.milestoneCount, "Invalid milestone");
+        require(!job.milestones[milestoneId].isReleased, "Already released");
+
+        uint amount = job.milestones[milestoneId].amount;
+        job.milestones[milestoneId].isReleased = true;
+        payable(job.freelancer).transfer(amount);
+
+        emit MilestoneApproved(jobId, milestoneId, amount);
+
+        // Optional: mark job completed if all milestones released
+        bool allReleased = true;
+        for (uint i = 0; i < job.milestoneCount; i++) {
+            if (!job.milestones[i].isReleased) {
+                allReleased = false;
+                break;
+            }
+        }
+
+        if (allReleased) {
+            job.status = JobStatus.Completed;
+        }
     }
 }
