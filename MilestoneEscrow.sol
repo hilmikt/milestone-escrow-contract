@@ -109,4 +109,24 @@ contract MilestoneEscrow {
             job.status = JobStatus.Completed;
         }
     }
+
+    /// @dev Event emitted when a job is cancelled and refunded
+    event JobCancelled(uint indexed jobId, uint refundedAmount);
+
+    /// @notice Allows client to cancel the job before any milestone is approved
+    function cancelJob(uint jobId) external onlyClient(jobId) {
+        Job storage job = jobs[jobId];
+        require(job.status == JobStatus.Active, "Job is not active");
+
+        // Check no milestones are released yet
+        for (uint i=0; i < job.milestoneCount; i++) {
+            require(!job.milestones[i].isReleased, "Milestone already released");
+        }
+        
+        uint refundAmount = address(this).balance;
+        job.status = JobStatus.Cancelled;
+        payable(job.client).transfer(refundAmount);
+
+        emit JobCancelled(jobId, refundAmount);
+    }
 }
