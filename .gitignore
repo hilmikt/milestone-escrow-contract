@@ -19,7 +19,6 @@ forge-cache/
 lib/
 
 # Remix generated files
-*.json
 *.db
 *.log
 
