@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milestone Escrow Demo</title>
+</head>
+<body>
+    <h1>Milesttone Escrow - Demo Frontend</h1>
+    <button id="connectButton">Connect Metamask</button>
+    <p id="accountDisplay">Not connected</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script>
+        const connectButton = document.getElementById('connectButton');
+        const accountDisplay = document.getElementById('accountDisplay');
+
+        connectButton.addEventListener('click', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    accountDisplay.innerText = `Connected: ${accounts[0]}`;
+                } catch (err) {
+                    console.error('User rejected connection', err);
+                }
+            } else {
+                accountDisplay.innerText = 'MetaMask not installed';
+            }
+        });
+    </script>
+</body>
+</html>
