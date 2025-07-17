@@ -6,7 +6,7 @@
     <title>Milestone Escrow Demo</title>
 </head>
 <body>
-    <h1>Milesttone Escrow - Demo Frontend</h1>
+    <h1>Milestone Escrow - Demo Frontend</h1>
     <button id="connectButton">Connect Metamask</button>
     <p id="accountDisplay">Not connected</p>
 
@@ -15,13 +15,31 @@
         const connectButton = document.getElementById('connectButton');
         const accountDisplay = document.getElementById('accountDisplay');
 
+        let provider;
+        let signer;
+        let contract;
+
+        const CONTRACT_ADDRESS = '0x316bb4bcd134F9227c2aBEC79F365D771A7BF3aa';
+
+        // Load ABI from abi.json dynamically
+        async function loadContract() {
+            const response = await fetch('abi.json');
+            const abi = await response.json();
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            signer = provider.getSigner();
+            contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+        }
+
+
         connectButton.addEventListener('click', async () => {
             if (typeof window.ethereum !== 'undefined') {
                 try {
                     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
                     accountDisplay.innerText = `Connected: ${accounts[0]}`;
+                    await loadContract();
+                    console.log('Contract loaded:', contract);
                 } catch (err) {
-                    console.error('User rejected connection', err);
+                    console.error('Connection failed:', err);
                 }
             } else {
                 accountDisplay.innerText = 'MetaMask not installed';
