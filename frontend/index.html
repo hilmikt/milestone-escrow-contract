@@ -10,6 +10,19 @@
     <button id="connectButton">Connect Metamask</button>
     <p id="accountDisplay">Not connected</p>
 
+    <h3>Create New Job</h3>
+    <form id="jobForm">
+        <label>Freelancer Address : </label><br>
+        <input type="text" id="freelancer" placeholder="0x..."><br><br>
+
+        <label>Milestones &lpar;comma separated&rpar; : </label><br>
+        <input type="text" id="Milestones" placeholder="e.g., 100,200,300"><br><br>
+
+        <button type="submit">Create Job</button>
+    </form>
+
+    <p id="jobStatus"></p>
+
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
         const connectButton = document.getElementById('connectButton');
@@ -45,6 +58,40 @@
                 accountDisplay.innerText = 'MetaMask not installed';
             }
         });
+
+
+        const jobForm = document.getElementById('jobForm');
+        const freelancerInput = document.getElementById('freelancer');
+        const milestonesInput = document.getElementById('milestones');
+        const jobStatus = document.getElementById('jobStatus');
+
+        jobform.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const freelancer = freelancerInput.value.trim();
+            const milestoneStr = milestonesInput.value.trim();
+
+            if (!freelancer || !milestoneStr) {
+                jobStatus.innerText = 'Please fill in all fields';
+                return;
+            }
+
+            const milestoneAmounts = milestoneStr.split(',').map(v => ethers.BigNumber.from(v.trim()));
+            const totalValue = milestoneAmounts.reduce((sum, v) => sum.add(v), ethers.BigNumber.from(0));
+
+            try {
+                const tx = await contract.createJob(freelancer, milestoneAmounts, {
+                    value: totalValue
+                });
+                jobStatus.innerText = 'Transaction submitted...';
+
+                await tx.wait(); // Wait for confirmation
+                jobStatus.innerText = 'Job created successfully!';
+            } catch (err) {
+                console.error(err);
+                jobStatus.innerText = 'Transaction failed.';
+            }
+        })
     </script>
 </body>
 </html>
