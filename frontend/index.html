@@ -16,7 +16,7 @@
         <input type="text" id="freelancer" placeholder="0x..."><br><br>
 
         <label>Milestones &lpar;comma separated&rpar; : </label><br>
-        <input type="text" id="Milestones" placeholder="e.g., 100,200,300"><br><br>
+        <input type="text" id="milestones" placeholder="e.g., 100,200,300"><br><br>
 
         <button type="submit">Create Job</button>
     </form>
@@ -74,7 +74,7 @@
         const milestonesInput = document.getElementById('milestones');
         const jobStatus = document.getElementById('jobStatus');
 
-        jobform.addEventListener('submit', async (e) => {
+        jobForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const freelancer = freelancerInput.value.trim();
@@ -118,9 +118,10 @@
             try {
                 const job = await contract.jobs(jobId);
 
-                jobDetails.innerHTML =
+                jobDetails.innerHTML = `
                     <strong>Client:</strong> ${job.client}<br>
                     <strong>Freelancer:</strong> ${job.freelancer}<br>
+                    <strong>Total Amount:</strong> ${job.totalAmount.toString()} wei<br>
                     <strong>Status:</strong> ${job.status} <em>(0=Active, 1=Completed, 2=Cancelled)</em><br>
                     <strong>Milestones:</strong> ${job.milestoneCount}
                 `;
