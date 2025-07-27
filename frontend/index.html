@@ -113,7 +113,7 @@
                 console.error(err);
                 jobStatus.innerText = 'Transaction failed.';
             }
-        })
+        });
 
         const viewJobForm = document.getElementById('viewJobForm');
         const jobIdInput = document.getElementById('jobId');
@@ -143,6 +143,11 @@
                 jobDetails.innerText = 'Error fetching job details';
             }
         });
+
+        const submitWorkForm = document.getElementById('submitWorkForm');
+        const submitJobIdInput = document.getElementById('submitJobId');
+        const submitMilestoneIdInput = document.getElementById('submitMilestoneId');
+        const submitStatus = document.getElementById('submitStatus');
 
     </script>
 </body>
