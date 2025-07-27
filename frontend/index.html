@@ -21,6 +21,8 @@
         <button type="submit">Create Job</button>
     </form>
 
+    <p id="jobStatus"></p>
+
     <h3>View Job Details</h3>
     <form id="viewJobForm">
          <label>Job ID:</label><br>
@@ -30,7 +32,18 @@
 
     <div id="jobDetails"></div>
 
-    <p id="jobStatus"></p>
+    <h3>Submit Work</h3>
+    <form id="submitWorkForm">
+        <label>Job ID:</label><br>
+        <input type="number" id="submitJobId" placeholder="Job ID"><br><br>
+
+        <label>Milestone ID:</label><br>
+        <input type="number" id="submitMilestoneId" placeholder="Milestone ID"><br><br>
+
+        <button type="submit">Submit Work</button>
+    </form>
+
+    <p id="submitStatus"></p>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
