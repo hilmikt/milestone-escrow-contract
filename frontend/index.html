@@ -149,6 +149,28 @@
         const submitMilestoneIdInput = document.getElementById('submitMilestoneId');
         const submitStatus = document.getElementById('submitStatus');
 
+        submitWorkForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const jobId = submitJobIdInput.value;
+            const milestoneId = submitMilestoneIdInput.value;
+
+            if (!jobId || !milestoneId) {
+                sybmitStatus.innerText = 'Fill in both Job ID and Milestone ID';
+                return;
+            }
+
+            try {
+                const tx = await contract.submitWork(jobId, milestoneId);
+                submitStatus.innerText = 'Submitting...';
+                await tx.wait();
+                submitStatus.innerText = 'Work submitted successfully!';
+            } catch (err); {
+                console.error(err);
+                submitStatus.innerText = 'Submission failed';
+            }
+        });
+
     </script>
 </body>
 </html>
