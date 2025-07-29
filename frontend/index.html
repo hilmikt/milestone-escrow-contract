@@ -185,6 +185,28 @@
         const approveMilestoneIdInput = document.getElementById('approveMilestoneId');
         const approveStatus = document.getElementById('approveStatus');
 
+        approveForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const jobId = approveJobIdInput.value;
+            const milestoneId = approveMilestoneIdInput.value;
+
+            if (!jobId || !milestoneId) {
+                approveStatus.innerText = "Please enter job and milestone ID";
+                return;
+            }
+
+            try {
+                const tx = await contract.approveMilestone(jobId, milestoneId);
+                approveStatus.innerText = 'Approving...';
+                await tx.wait();
+                approveStatus.innerText = 'Milestone approved and payment released!';
+            } catch (err) {
+                console.error(err);
+                approveStatus.innerText = 'Approval failed';
+            }
+        })
+
     </script>
 </body>
 </html>
