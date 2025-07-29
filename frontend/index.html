@@ -20,7 +20,6 @@
 
         <button type="submit">Create Job</button>
     </form>
-
     <p id="jobStatus"></p>
 
     <h3>View Job Details</h3>
@@ -29,7 +28,6 @@
          <input type="number" id="jobId" placeholder="Enter Job ID"><br><br>
           <button type="submit">View Job</button>
     </form>
-
     <div id="jobDetails"></div>
 
     <h3>Submit Work</h3>
@@ -42,8 +40,19 @@
 
         <button type="submit">Submit Work</button>
     </form>
-
     <p id="submitStatus"></p>
+
+    <h3>Approve Milestone</h3>
+    <form id="approveForm">
+        <label>Job ID:</label><br>
+        <input type="number" id="approveId" placeholder="JobID"><br><br>
+
+        <label>Milestone ID:</label>
+        <input type="number" id="approveMilestoneId" placeholder="Milestone ID"><br><br>
+
+        <button type="submit">Approve</button>
+    </form>
+    <p class="approveStatus"></p>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
@@ -165,7 +174,7 @@
                 submitStatus.innerText = 'Submitting...';
                 await tx.wait();
                 submitStatus.innerText = 'Work submitted successfully!';
-            } catch (err); {
+            } catch (err) {
                 console.error(err);
                 submitStatus.innerText = 'Submission failed';
             }
