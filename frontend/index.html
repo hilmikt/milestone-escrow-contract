@@ -219,6 +219,26 @@
         const cancelJobIdInput = document.getElementById('cancelJobId');
         const cancelStatus = document.getElementById('cancelStatus');
 
+        cancelForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const jobId = cancelJobIdInput.value;
+            if(!jobId) {
+                cancelStatus.innerText = 'Please enter a job ID';
+                return;
+            }
+
+            try {
+                const tx = await contract.cancelJob(jobID);
+                cancelStatus.innerText = 'Cancelling...';
+                await tx.wait();
+                cancelStatus.innerText = 'Job cancelled and funds refunded!';
+            } catch (err) {
+                console.error(err);
+                cancelStatus.innerText = 'Cancellation failed';
+            }
+        });
+
     </script>
 </body>
 </html>
