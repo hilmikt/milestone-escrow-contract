@@ -54,6 +54,14 @@
     </form>
     <p class="approveStatus"></p>
 
+    <h3>Cancel Job</h3>
+    <form id="cancelForm">
+        <label>Job ID:</label><br>
+        <input type="number" id="cancelJobId" placeholder="Enter Job ID"><br><br>
+        <button type="submit">Cancel Job</button>
+    </form>
+    <p id="cancelStatus"></p>
+
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
         const connectButton = document.getElementById('connectButton');
@@ -205,7 +213,7 @@
                 console.error(err);
                 approveStatus.innerText = 'Approval failed';
             }
-        })
+        });
 
     </script>
 </body>
