@@ -48,14 +48,14 @@
     <h3>Approve Milestone</h3>
     <form id="approveForm">
         <label>Job ID:</label><br>
-        <input type="number" id="approveId" placeholder="JobID"><br><br>
+        <input type="number" id="approveJobId" placeholder="JobID"><br><br>
 
         <label>Milestone ID:</label><br>
         <input type="number" id="approveMilestoneId" placeholder="Milestone ID"><br><br>
 
         <button type="submit">Approve</button>
     </form>
-    <p class="approveStatus"></p>
+    <p id="approveStatus"></p>
 
     <h3>Cancel Job</h3>
     <form id="cancelForm">
@@ -176,7 +176,7 @@
             const milestoneId = submitMilestoneIdInput.value;
 
             if (!jobId || !milestoneId) {
-                sybmitStatus.innerText = 'Fill in both Job ID and Milestone ID';
+                submitStatus.innerText = 'Fill in both Job ID and Milestone ID';
                 return;
             }
 
@@ -232,7 +232,7 @@
             }
 
             try {
-                const tx = await contract.cancelJob(jobID);
+                const tx = await contract.cancelJob(jobId);
                 cancelStatus.innerText = 'Cancelling...';
                 await tx.wait();
                 cancelStatus.innerText = 'Job cancelled and funds refunded!';
