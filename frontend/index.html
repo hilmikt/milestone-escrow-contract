@@ -4,66 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <title>Milestone Escrow Demo</title>
 </head>
 <body>
-    <h1>Milestone Escrow - Demo Frontend</h1>
-    <button id="connectButton">Connect Metamask</button>
-    <p id="accountDisplay">Not connected</p>
+    <h1 class="title">Milestone-based escrow contract with frontend integration</h1>
+    <p class="status" id="accountDisplay">Not connected</p>
+    <button id="connectButton" class="connect-btn">Connect Metamask</button>
 
-    <h3>Create New Job</h3>
-    <form id="jobForm">
-        <label>Freelancer Address : </label><br>
-        <input type="text" id="freelancer" placeholder="0x..."><br><br>
+    <div class="card-grid">
+        
+        <div class="card">
+            <h3>Create New Job</h3>
+            <form id="jobForm">
+                <label>Freelancer Address : </label><br>
+                <input type="text" id="freelancer" placeholder="0x..."><br><br>
+                <label>Milestones &lpar;comma separated&rpar; : </label><br>
+                <input type="text" id="milestones" placeholder="e.g., 100,200,300"><br><br>
+                <button type="submit">Create Job</button>
+            </form>
+            <p id="jobStatus"></p>
+        </div>
+            
+        <div class="card">
+            <h3>View Job Details</h3>
+            <form id="viewJobForm">
+                <label>Job ID:</label><br>
+                <input type="number" id="jobId" placeholder="Enter Job ID"><br><br>
+                <button type="submit">View Job</button>
+            </form>
+            <div id="jobDetails"></div>
+        </div>
 
-        <label>Milestones &lpar;comma separated&rpar; : </label><br>
-        <input type="text" id="milestones" placeholder="e.g., 100,200,300"><br><br>
+        <div class="card">
+            <h3>Submit Work</h3>
+            <form id="submitWorkForm">
+                <label>Job ID:</label><br>
+                <input type="number" id="submitJobId" placeholder="Job ID"><br><br>
+                <label>Milestone ID:</label><br>
+                <input type="number" id="submitMilestoneId" placeholder="Milestone ID"><br><br>
+                <button type="submit">Submit Work</button>
+            </form>
+            <p id="submitStatus"></p>
+        </div>
 
-        <button type="submit">Create Job</button>
-    </form>
-    <p id="jobStatus"></p>
+        <div class="card">
+            <h3>Approve Milestone</h3>
+            <form id="approveForm">
+                <label>Job ID:</label><br>
+                <input type="number" id="approveJobId" placeholder="JobID"><br><br>
+                <label>Milestone ID:</label><br>
+                <input type="number" id="approveMilestoneId" placeholder="Milestone ID"><br><br>
+                <button type="submit">Approve</button>
+            </form>
+            <p id="approveStatus"></p>
+        </div>
 
-    <h3>View Job Details</h3>
-    <form id="viewJobForm">
-         <label>Job ID:</label><br>
-         <input type="number" id="jobId" placeholder="Enter Job ID"><br><br>
-          <button type="submit">View Job</button>
-    </form>
-    <div id="jobDetails"></div>
+        <div class="card">
+            <h3>Cancel Job</h3>
+            <form id="cancelForm">
+                <label>Job ID:</label><br>
+                <input type="number" id="cancelJobId" placeholder="Enter Job ID"><br><br>
+                <button type="submit">Cancel Job</button>
+            </form>
+            <p id="cancelStatus"></p>
+        </div>
+        
+        <div class="card">
+                <h3>Coming Soon</h3>
+                <p>More features will be added here</p>
+        </div>
 
-    <h3>Submit Work</h3>
-    <form id="submitWorkForm">
-        <label>Job ID:</label><br>
-        <input type="number" id="submitJobId" placeholder="Job ID"><br><br>
-
-        <label>Milestone ID:</label><br>
-        <input type="number" id="submitMilestoneId" placeholder="Milestone ID"><br><br>
-
-        <button type="submit">Submit Work</button>
-    </form>
-    <p id="submitStatus"></p>
-
-    <h3>Approve Milestone</h3>
-    <form id="approveForm">
-        <label>Job ID:</label><br>
-        <input type="number" id="approveJobId" placeholder="JobID"><br><br>
-
-        <label>Milestone ID:</label><br>
-        <input type="number" id="approveMilestoneId" placeholder="Milestone ID"><br><br>
-
-        <button type="submit">Approve</button>
-    </form>
-    <p id="approveStatus"></p>
-
-    <h3>Cancel Job</h3>
-    <form id="cancelForm">
-        <label>Job ID:</label><br>
-        <input type="number" id="cancelJobId" placeholder="Enter Job ID"><br><br>
-        <button type="submit">Cancel Job</button>
-    </form>
-    <p id="cancelStatus"></p>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
