@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- link to external CSS for styling -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <title>Milestone Escrow Demo</title>
 </head>
 <body>
+
+    <!-- header section -->
     <h1 class="title">Milestone-based escrow contract with frontend integration</h1>
-    <p class="status" id="accountDisplay">Not connected</p>
+
+    <!-- button to connect Metamask -->
     <button id="connectButton" class="connect-btn">Connect Metamask</button>
+    <p class="status" id="accountDisplay">Not connected</p>
 
     <div class="card-grid">
         
         <div class="card">
+            <!-- Form to create a new job with freelancer address and milestone amounts -->
             <h3>Create New Job</h3>
             <form id="jobForm">
                 <label>Freelancer Address : </label><br>
@@ -29,6 +35,7 @@
         </div>
             
         <div class="card">
+            <!-- Form to view job details by ID -->
             <h3>View Job Details</h3>
             <form id="viewJobForm">
                 <label>Job ID:</label><br>
@@ -39,6 +46,7 @@
         </div>
 
         <div class="card">
+            <!-- Form for freelancer to submit work -->
             <h3>Submit Work</h3>
             <form id="submitWorkForm">
                 <label>Job ID:</label><br>
@@ -51,6 +59,7 @@
         </div>
 
         <div class="card">
+            <!-- Form for client to approve a submitted milestone -->
             <h3>Approve Milestone</h3>
             <form id="approveForm">
                 <label>Job ID:</label><br>
@@ -63,6 +72,7 @@
         </div>
 
         <div class="card">
+            <!-- Form to cancel a job -->
             <h3>Cancel Job</h3>
             <form id="cancelForm">
                 <label>Job ID:</label><br>
@@ -79,11 +89,16 @@
 
     </div>
 
+    <!-- Include ethers.js from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
     <script>
+        
+        // DOM elements for Metamask connection
         const connectButton = document.getElementById('connectButton');
         const accountDisplay = document.getElementById('accountDisplay');
 
+        // Global variables for provider, signer, and contract
         let provider;
         let signer;
         let contract;
@@ -99,7 +114,7 @@
             contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
         }
 
-
+        // Metamask connection logic
         connectButton.addEventListener('click', async () => {
             if (typeof window.ethereum !== 'undefined') {
                 try {
@@ -115,7 +130,9 @@
             }
         });
 
-
+        // ===========================
+        // CREATE JOB FORM HANDLING
+        // ===========================
         const jobForm = document.getElementById('jobForm');
         const freelancerInput = document.getElementById('freelancer');
         const milestonesInput = document.getElementById('milestones');
@@ -132,6 +149,7 @@
                 return;
             }
 
+            // Parse and convert milestone amounts into BigNumber
             const milestoneAmounts = milestoneStr.split(',').map(v => ethers.BigNumber.from(v.trim()));
             const totalValue = milestoneAmounts.reduce((sum, v) => sum.add(v), ethers.BigNumber.from(0));
 
@@ -149,6 +167,9 @@
             }
         });
 
+        // ===========================
+        // VIEW JOB DETAILS
+        // ===========================
         const viewJobForm = document.getElementById('viewJobForm');
         const jobIdInput = document.getElementById('jobId');
         const jobDetails = document.getElementById('jobDetails');
@@ -178,6 +199,9 @@
             }
         });
 
+        // ===========================
+        // SUBMIT JOB HANDLER
+        // ===========================
         const submitWorkForm = document.getElementById('submitWorkForm');
         const submitJobIdInput = document.getElementById('submitJobId');
         const submitMilestoneIdInput = document.getElementById('submitMilestoneId');
@@ -205,6 +229,9 @@
             }
         });
 
+        // ===========================
+        // APPROVE MILESTONE
+        // ===========================
         const approveForm = document.getElementById('approveForm');
         const approveJobIdInput = document.getElementById('approveJobId');
         const approveMilestoneIdInput = document.getElementById('approveMilestoneId');
@@ -232,6 +259,9 @@
             }
         });
 
+        // ===========================
+        // CANCEL JOB
+        // ===========================
         const cancelForm = document.getElementById('cancelForm');
         const cancelJobIdInput = document.getElementById('cancelJobId');
         const cancelStatus = document.getElementById('cancelStatus');
