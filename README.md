@@ -34,7 +34,7 @@ Ideal for freelance work agreements, this smart contract is part of the **Mintar
 
 ***Run this in your terminal:***
 
-`git clone https://github.com/hilmi-kt/milestone-escrow-contract.git`
+`git clone https://github.com/hilmikt/milestone-escrow-contract.git`
 
 ### 2. Open in Remix
 
